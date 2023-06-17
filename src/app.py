@@ -40,7 +40,7 @@ async def get_user(username: str):
     )
 
 
-@app.post("/register", response_model=User_Pydantic)
+@app.post("/register", response_model=User_Pydantic, responses={404: {"model": HTTPNotFoundError}})
 async def create_user(user: UserIn_Pydantic):
     user_obj = await Users.create(**user.dict(exclude_unset=True))
     return await User_Pydantic.from_tortoise_orm(user_obj)

@@ -1,9 +1,12 @@
+from typing import Annotated
+
 from fastapi import FastAPI, File
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from tortoise.contrib.fastapi import HTTPNotFoundError, register_tortoise
-from src.models import User_Pydantic, UserIn_Pydantic, Users, UserInPicture_Pydantic
-from typing import Annotated
+
+from src.models import (User_Pydantic, UserIn_Pydantic, UserInPicture_Pydantic,
+                        Users)
 
 app = FastAPI(title="API for messagerie TCP server")
 

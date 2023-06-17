@@ -1,16 +1,6 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+import uvicorn
 
-app = FastAPI()
+from src.tools.constant import MAIN_APP, SERVER_IP, SERVER_PORT
 
-class Client(BaseModel):
-    login: str
-    password: str
-    
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-@app.post("/login/{login}")
-def login(client: Client):
-    return {"login": client.login, "password": client.password}
+if __name__ == "__main__":
+    uvicorn.run(MAIN_APP, host=SERVER_IP, port=SERVER_PORT)

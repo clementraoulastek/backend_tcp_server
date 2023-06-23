@@ -14,3 +14,11 @@ UserIn_Pydantic = pydantic_model_creator(Users, name="UserIn", exclude_readonly=
 UserInPicture_Pydantic = pydantic_model_creator(
     Users, name="UserInPicture", exclude_readonly=True, exclude=["picture"]
 )
+
+class Messages(models.Model):
+    message_id = fields.IntField(pk=True)
+    sender = fields.CharField(max_length=30)
+    message = fields.TextField()
+    
+Messages_Pydantic = pydantic_model_creator(Messages, name="Message")
+MessagesIn_Pydantic = pydantic_model_creator(Messages, name="MessageIn", exclude_readonly=True)

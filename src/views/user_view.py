@@ -4,8 +4,12 @@ from fastapi import APIRouter, File
 from fastapi.responses import StreamingResponse
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from src.models.models import (User_Pydantic, UserIn_Pydantic,
-                               UserInPicture_Pydantic, Users)
+from src.models.models import (
+    User_Pydantic,
+    UserIn_Pydantic,
+    UserInPicture_Pydantic,
+    Users,
+)
 
 router = APIRouter()
 
@@ -19,6 +23,7 @@ async def get_user(username: str, password: str):
     return await UserInPicture_Pydantic.from_queryset_single(
         Users.get(username=username, password=password)
     )
+
 
 @router.get(
     "/user/{username}/picture",
@@ -34,10 +39,11 @@ async def get_user_avatar(username: str):
     )
 
 
-@router.post("/register", response_model=User_Pydantic, responses={404: {"model": HTTPNotFoundError}})
-async def create_user(user: UserIn_Pydantic):
-    user_obj = await Users.create(**user.dict(exclude_unset=True))
-    return await User_Pydantic.from_tortoise_orm(user_obj)
+@router.post("/register", responses={404: {"model": HTTPNotFoundError}})
+async def create_user(user: UserInPicture_Pydantic):
+    await Users.create(
+        **user.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
+    )
 
 
 @router.put("/user/{user_name}", responses={404: {"model": HTTPNotFoundError}})

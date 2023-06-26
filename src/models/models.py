@@ -22,9 +22,13 @@ class Messages(models.Model):
     message_id = fields.IntField(pk=True)
     sender = fields.CharField(max_length=30)
     message = fields.TextField()
+    reaction_nb = fields.IntField(default=0)
 
 
 Messages_Pydantic = pydantic_model_creator(Messages, name="Message")
 MessagesIn_Pydantic = pydantic_model_creator(
     Messages, name="MessageIn", exclude_readonly=True
+)
+MessagesInReaction_Pydantic = pydantic_model_creator(
+    Messages, name="MessageInReaction", exclude_readonly=True, exclude=["reaction_nb"]
 )

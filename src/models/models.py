@@ -20,10 +20,12 @@ UserInPicture_Pydantic = pydantic_model_creator(
 
 class Messages(models.Model):
     message_id = fields.IntField(pk=True)
+    created_at = fields.DatetimeField(auto_now_add=True)
     sender = fields.CharField(max_length=30)
+    receiver = fields.CharField(max_length=30)
     message = fields.TextField()
     reaction_nb = fields.IntField(default=0)
-
+    
 
 Messages_Pydantic = pydantic_model_creator(Messages, name="Message")
 MessagesIn_Pydantic = pydantic_model_creator(

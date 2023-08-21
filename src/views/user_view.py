@@ -4,12 +4,8 @@ from fastapi import APIRouter, File
 from fastapi.responses import StreamingResponse
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from src.models.models import (
-    User_Pydantic,
-    UserIn_Pydantic,
-    UserInPicture_Pydantic,
-    Users,
-)
+from src.models.models import (User_Pydantic, UserIn_Pydantic,
+                               UserInPicture_Pydantic, Users)
 
 router = APIRouter()
 

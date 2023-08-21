@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
-from src.models.models import Messages, MessagesIn_Pydantic, MessagesInReaction_Pydantic
+from src.models.models import (Messages, MessagesIn_Pydantic,
+                               MessagesInReaction_Pydantic)
 
 router = APIRouter()
 
@@ -18,7 +19,7 @@ async def create_message(message: MessagesInReaction_Pydantic):
     responses={404: {"model": HTTPNotFoundError}},
 )
 async def get_message():
-    messages = await Messages.all().order_by("message_id").limit(20).values()
+    messages = await Messages.all().order_by("created_at").values()
     return {"messages": messages}
 
 

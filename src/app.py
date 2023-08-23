@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
-import src.views.messages_view as messages_view
-import src.views.user_view as user_view
+import src.controller.messages_controller as messages_controller
+import src.controller.user_controller as user_controller
 
 app = FastAPI(title="API for messagerie TCP server")
-app.include_router(user_view.router)
-app.include_router(messages_view.router)
+app.include_router(user_controller.router)
+app.include_router(messages_controller.router)
 
 register_tortoise(
     app,

@@ -13,7 +13,6 @@ async def create_message(message: MessagesInReaction_Pydantic):
         **message.dict(exclude_unset=True, exclude_defaults=True, exclude_none=True)
     )
 
-
 @router.get(
     "/messages",
     responses={404: {"model": HTTPNotFoundError}},

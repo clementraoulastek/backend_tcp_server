@@ -24,13 +24,14 @@ class Messages(models.Model):
     sender = fields.CharField(max_length=30)
     receiver = fields.CharField(max_length=30)
     message = fields.TextField()
+    is_readed = fields.BooleanField(default=False)
     reaction_nb = fields.IntField(default=0)
-    
+
 
 Messages_Pydantic = pydantic_model_creator(Messages, name="Message")
 MessagesIn_Pydantic = pydantic_model_creator(
     Messages, name="MessageIn", exclude_readonly=True
 )
-MessagesInReaction_Pydantic = pydantic_model_creator(
-    Messages, name="MessageInReaction", exclude_readonly=True, exclude=["reaction_nb"]
+MessagesIn_low_data_Pydantic = pydantic_model_creator(
+    Messages, name="MessageInReaction", exclude_readonly=True, exclude=["reaction_nb", "is_readed"]
 )

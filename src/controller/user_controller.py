@@ -19,7 +19,14 @@ async def get_user(username: str, password: str):
     return await UserInPicture_Pydantic.from_queryset_single(
         Users.get(username=username, password=password)
     )
-
+    
+@router.get(
+    "/users/username",
+    responses={404: {"model": HTTPNotFoundError}},
+)   
+async def get_users_username():
+    users = await Users.all()
+    return [user.username for user in users]
 
 @router.get(
     "/user/{username}/picture",
@@ -27,14 +34,13 @@ async def get_user(username: str, password: str):
     responses={404: {"model": HTTPNotFoundError}},
 )
 async def get_user_avatar(username: str):
-    test = await UserIn_Pydantic.from_queryset_single(Users.get(username=username))
+    user = await UserIn_Pydantic.from_queryset_single(Users.get(username=username))
 
     return StreamingResponse(
-        iter([test.picture]),
+        iter([user.picture]),
         media_type="application/octet-stream",
     )
-
-
+    
 @router.post("/register", responses={404: {"model": HTTPNotFoundError}})
 async def create_user(user: UserInPicture_Pydantic):
     await Users.create(
@@ -45,3 +51,7 @@ async def create_user(user: UserInPicture_Pydantic):
 @router.put("/user/{user_name}", responses={404: {"model": HTTPNotFoundError}})
 async def create_file(user_name: str, file: Annotated[bytes, File()]):
     await Users.filter(username=user_name).update(picture=file)
+
+@router.patch("/user/{user_name}", responses={404: {"model": HTTPNotFoundError}})
+async def update_user_connection_status(user_name: str, is_connected: bool):
+    await Users.filter(username=user_name).update(is_connected=is_connected)

@@ -9,6 +9,7 @@ class Users(models.Model):
     username = fields.CharField(max_length=30, unique=True)
     password = fields.CharField(max_length=30)
     picture = fields.BinaryField(default=return_default_pic)
+    is_connected = fields.BooleanField(default=False)
 
 
 User_Pydantic = pydantic_model_creator(Users, name="User")
@@ -16,7 +17,6 @@ UserIn_Pydantic = pydantic_model_creator(Users, name="UserIn", exclude_readonly=
 UserInPicture_Pydantic = pydantic_model_creator(
     Users, name="UserInPicture", exclude_readonly=True, exclude=["picture"]
 )
-
 
 class Messages(models.Model):
     message_id = fields.IntField(pk=True)

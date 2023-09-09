@@ -23,6 +23,7 @@ class Messages(models.Model):
     created_at = fields.DatetimeField(auto_now_add=True)
     sender = fields.CharField(max_length=30)
     receiver = fields.CharField(max_length=30)
+    response_id = fields.IntField()
     message = fields.TextField()
     is_readed = fields.BooleanField(default=False)
     reaction_nb = fields.IntField(default=0)

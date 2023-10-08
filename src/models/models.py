@@ -10,12 +10,17 @@ class Users(models.Model):
     password = fields.CharField(max_length=30)
     picture = fields.BinaryField(default=return_default_pic)
     is_connected = fields.BooleanField(default=False)
+    register_date = fields.DatetimeField(auto_now_add=True)
+    description = fields.TextField(default="")
 
 
 User_Pydantic = pydantic_model_creator(Users, name="User")
 UserIn_Pydantic = pydantic_model_creator(Users, name="UserIn", exclude_readonly=True)
 UserInPicture_Pydantic = pydantic_model_creator(
-    Users, name="UserInPicture", exclude_readonly=True, exclude=["picture"]
+    Users, name="UserInPicture", exclude=["picture"]
+)
+UserInCreation_Pydantic = pydantic_model_creator(
+    Users, name="UserInCreation", exclude=("picture", "register_date", "description"), exclude_readonly=True
 )
 
 class Messages(models.Model):

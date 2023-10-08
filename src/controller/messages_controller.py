@@ -51,7 +51,7 @@ async def get_message(message_id: int):
 )
 async def get_user_dm(username: str):
     messages = await Messages.filter(
-        Q(sender=username) or Q(receiver=username)
+        Q(sender=username, receiver=username, join_type=Q.OR)
     ).values()
 
     usernames = list(
@@ -62,6 +62,9 @@ async def get_user_dm(username: str):
             for message in messages
         }
     )
+    # TODO: add room endpoint to avoid this shit
+    if "home" not in usernames:
+        usernames.append("home")
 
     return {"usernames": usernames}
 
@@ -71,8 +74,9 @@ async def get_user_dm(username: str):
 )
 async def get_last_message_id():
     last_message = await Messages.all().order_by("-message_id").limit(1).values()
-    
-    return {"last_id" : last_message[0]["message_id"]}
+
+    return {"last_id" : last_message[0]["message_id"] if last_message else None}
+
 
 @router.get(
     "/first_id",

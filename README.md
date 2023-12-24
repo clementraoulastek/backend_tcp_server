@@ -1,4 +1,4 @@
-# Kamas Dashboard
+# API for TCP messenger server
 
 This repository is an API for messages coming from TCP server.
 
